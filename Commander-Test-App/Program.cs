@@ -23,6 +23,7 @@ namespace Commander_Test_App
 
             manager.Invoke("test", Console.ReadLine());
 
+            Console.WriteLine(manager.List());
             Console.ReadKey();
         }
     }

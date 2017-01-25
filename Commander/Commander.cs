@@ -38,6 +38,17 @@ namespace Commander
             }
         }
 
+        public string List()
+        {
+            string res = String.Empty;
+            int i = 0;
+            foreach(KeyValuePair<string, Command> cmd in Manager.Commands)
+            {
+                res += ++i + ". " + cmd.Key + "\n";
+            }
+            return res;
+        }
+
         public bool Remove()
         {
             return true;
