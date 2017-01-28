@@ -16,13 +16,18 @@ namespace Commander.Data
     public class Command
     {
         public CommandType Type;
-        private string Name;
+        public string Name;
         private Func<string, CommandType> Func;
+        private List<Command> childNodes = new List<Command>();
+        private Command Parent;
 
-        public Command(string name, CommandType type, Func<string, CommandType> func)  
+        public Command(string name, CommandType type, Command parent, Func<string, CommandType> func)  
         {
+            parent?.AddNode(this);
+
             Name = name;
             Type = type;
+            Parent = parent;
             Func = func;
         }
 
@@ -33,6 +38,49 @@ namespace Commander.Data
                 Func.Invoke(args);
             }           
             return Type;
+        }
+
+        public void AddNode(Command cmd)
+        {
+            if (!cmd.HasParent())
+            {
+                this.childNodes.Add(cmd);
+            }
+            else
+            {
+                //throw new Exception("Command already has a Parent Node");
+            }
+        }
+
+        public bool HasParent()
+        {
+            return (Parent != null);
+        }
+
+        public Command GetParent()
+        {
+            return Parent;
+        }
+
+        public bool SetParent(Command cmd)
+        {
+            Parent?.childNodes.Remove(this);
+            Parent = cmd;
+            return true;
+        }
+
+        public bool HasChildern()
+        {
+            if (childNodes.Count > 0)
+            {
+                return true;
+            }
+            return false;
+        }
+
+        public List<Command> GetChildren()
+        {
+            return childNodes;
         }
     }
 }

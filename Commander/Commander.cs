@@ -16,6 +16,7 @@ namespace Commander
 
         public bool Add(string name, CommandType type, Func<string, CommandType> func )
         {
+            Manager.HasCommmand("test");
             Manager.RegisterCommand(name, type, func);
             return true;
         }
@@ -29,7 +30,9 @@ namespace Commander
         {
             try
             {
-                Manager.GetCommand(cmd).Invoke(args);
+                Command tmp = Manager.GetCommand(cmd);
+                tmp.Invoke(args);
+                Manager.ChangeLevel(tmp);
                 return true;
             }
             catch (Exception)
@@ -42,9 +45,9 @@ namespace Commander
         {
             string res = String.Empty;
             int i = 0;
-            foreach(KeyValuePair<string, Command> cmd in Manager.Commands)
+            foreach(Command cmd in Manager.ActiveNode.GetChildren())
             {
-                res += ++i + ". " + cmd.Key + "\n";
+                res += ++i + ". " + cmd.Name + "\n";
             }
             return res;
         }
