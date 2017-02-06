@@ -1,9 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 using Commander.Data;
 
 namespace Commander
@@ -22,13 +18,15 @@ namespace Commander
         }
 
 
-        public static void RegisterCommand(string name, CommandType type, Func<string, CommandType> func, Command parent=null)
+        public static Command RegisterCommand(string name, CommandType type, Func<string, CommandType> func, Command parent=null)
         {
             if (parent == null)
             {
                 parent = RootCommand;
             }
-            parent.AddNode(new Command(name, type, parent, func));
+            Command tmp = new Command(name, type, parent, func);
+            parent.AddNode(tmp);
+            return tmp;
         }
 
         /*public static bool RemoveCommand(string name)
