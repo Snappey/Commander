@@ -47,7 +47,7 @@ namespace Commander
                     return new KeyValuePair<bool, Command>(true, command);
                 }
             }
-            return new KeyValuePair<bool, Command>(false, null);
+            return new KeyValuePair<bool, Command>(false, RootCommand);
         }
 
         public static bool HasCommmand(string name)

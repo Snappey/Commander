@@ -10,7 +10,7 @@ namespace Commander.Data
     public enum CommandType
     {
         Command = 1,
-        Folder = 2, // Not Implemented yet
+        Folder = 2, // Not Implemented
     }
 
     public class Command
@@ -23,7 +23,7 @@ namespace Commander.Data
 
         public Command(string name, CommandType type, Command parent, Func<string, CommandType> func)  
         {
-            parent?.AddNode(this);
+            parent?.AddNode(this); // TODO: Check what happens if parent is passed as null from Manager.RegisterCommand, I think it creates a command with no parent..
 
             Name = name;
             Type = type;

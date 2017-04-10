@@ -26,7 +26,7 @@ namespace Commander
         /// Returns a Command object with the given name (Case Sensitive)
         /// </summary>
         /// <param name="cmd"> The Command to search for </param>
-        /// <returns> Returns the given command if it is found, null if no matching command is found </returns>
+        /// <returns> Returns the given command if it is found, Root command if no matching command is found </returns>
         public Command Search(string cmd)
         {
             return Manager.GetCommand(cmd);
