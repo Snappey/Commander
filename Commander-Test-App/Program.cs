@@ -15,32 +15,32 @@ namespace Commander_Test_App
         static void Main(string[] args)
         {
             manager = new CommandManager();
-            var test = manager.Add("test", CommandType.Command, delegate(string s)
+            var echo = manager.Add("echo", CommandType.Command, delegate(string s)
             {
                 Console.WriteLine("You did this: " + s);
-                return CommandType.Command;
+                return CommandType.Command; // Other types are not implemented, so this is the only type
             });
 
-            var testing = manager.Add("testing", CommandType.Command, delegate(string s) 
+            manager.Add("echo-option-1", CommandType.Command, delegate(string s) 
             {
                 Console.WriteLine("Wow this is the second layer!");
                 return CommandType.Command;
-            }, test);
+            }, echo);
 
-            manager.Add("testing times", CommandType.Command, delegate(string s)
+            manager.Add("echo-option-2", CommandType.Command, delegate(string s)
             {
                 Console.WriteLine("It happens!");
                 return CommandType.Command;
-            }, test);
+            }, echo);
 
-            manager.Add("Further Testing", CommandType.Command, delegate(string s)
+            manager.Add("echo-option-3", CommandType.Command, delegate(string s)
             {
-                Console.WriteLine("We're in too DEEP!");
+                Console.WriteLine("We're in the 2nd layer!");
                 return CommandType.Command;
-            }, testing);
+            }, echo);
 
 
-            var branch = manager.Add("branch-test", CommandType.Command, delegate(string s)
+            var branch = manager.Add("branch", CommandType.Command, delegate(string s)
             {
                 Console.WriteLine("Second Branch: " + s);
                 return CommandType.Command;
@@ -52,22 +52,17 @@ namespace Commander_Test_App
                 return CommandType.Command;
             }, branch);
 
-           /* manager.Invoke("branch-test", Console.ReadLine());
 
-            manager.Invoke("branch-testing", "lolzor");
+            manager.Invoke("echo", "This ran the `echo` command!"); // Invoke is used to activate a command 
+            manager.Invoke("echo-option-1");
+            var list = manager.List(); // List commands on the current active layer
+            manager.Invoke("echo-option-3");
+            manager.Invoke("back"); // `back` is a inbuilt command to go to the previous layer
 
-            manager.Invoke("back", "up a level");*/
-
-            manager.Invoke("test", "lolzor");
-            manager.Invoke("testing", "lolzor");
-            manager.List();
-            manager.Invoke("Further Testing", "lolozor");
-            manager.Invoke("back", "lolzor");
-
-            var res =  manager.Invoke("test", "test");
+            var res =  manager.Invoke("echo", "test"); // Returns whether the command was sucessfuly executed
             Console.WriteLine(res);
 
-            Console.WriteLine(manager.List());
+            Console.WriteLine(list);
             Console.ReadKey();
         }
     }
